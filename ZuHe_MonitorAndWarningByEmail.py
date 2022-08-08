@@ -13,7 +13,7 @@ while 1:
         driver = webdriver.Chrome(options=option)
         url="https://xueqiu.com/P/"+ZuHe_Name
         driver.get(url)
-        time.sleep(0.5)
+        time.sleep(0.75)
 
 
 
@@ -44,10 +44,11 @@ while 1:
 
         btn=driver.find_element_by_class_name('history')
         driver.execute_script("arguments[0].click();", btn)
-        time.sleep(0.5)#一定要等待网页加载出来
+        time.sleep(0.75)#一定要等待网页加载出来
         page_text=driver.page_source#获取页面源码
         tree=etree.HTML(page_text)#建立e树
         li_list=tree.xpath('//*[@id="cube-weight"]/div[2]/div[3]/ul[1]/div//text()')#从网页读取到的信息
+        time.sleep(0.5)
         driver.quit()
         old_file=ZuHe_Name+".txt"
         f1=open(old_file,'r',encoding='utf-8')
@@ -68,5 +69,5 @@ while 1:
             f1 = open(old_file, 'w', encoding='utf-8')
             f1.writelines(trade_new)
             send_email(trade_new)
-        time.sleep(5)
+        time.sleep(4)
 
