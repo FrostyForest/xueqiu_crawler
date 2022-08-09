@@ -69,5 +69,5 @@ while 1:
             f1 = open(old_file, 'w', encoding='utf-8')
             f1.writelines(trade_new)
             send_email(trade_new)
-        time.sleep(4)
+        time.sleep(3)
 
