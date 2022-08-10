@@ -5,3 +5,5 @@
 + **send_email**：用python发电子邮件
 + **Auto_BuyAndSold**：自动监控多个雪球组合并且应用到自己的组合里面
 + **get_ZuHe_NetValueData**：爬取对应组合的净值数据
++ **Zuhe_Analysz**:计算组合的净值，夏普比率和持续时间
++ **personal_following_ZuHe_Analyzation**：爬取个人所有关注的组合，并计算相关数据，再写入csv
