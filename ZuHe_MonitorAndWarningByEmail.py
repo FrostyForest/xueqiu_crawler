@@ -5,7 +5,7 @@ import time
 from send_email import send_email
 import  os
 
-ZuHe_list=['ZH154076','ZH2119969']
+ZuHe_list=['ZH2119969','ZH3099261','ZH3050233','ZH3068612','ZH2579014',]#监控的组合列表
 #while 1:
 for ZuHe_Name in ZuHe_list:
     option = webdriver.ChromeOptions()
@@ -14,7 +14,7 @@ for ZuHe_Name in ZuHe_list:
     driver = webdriver.Chrome(options=option)
     url="https://xueqiu.com/P/"+ZuHe_Name
     driver.get(url)
-    time.sleep(0.75)
+    time.sleep(0.25)
 
 
 
@@ -45,13 +45,15 @@ for ZuHe_Name in ZuHe_list:
 
     btn=driver.find_element_by_class_name('history')
     driver.execute_script("arguments[0].click();", btn)
-    time.sleep(0.75)#一定要等待网页加载出来
+    time.sleep(0.5)#一定要等待网页加载出来
     page_text=driver.page_source#获取页面源码
     tree=etree.HTML(page_text)#建立e树
-    li_list=tree.xpath('//*[@id="cube-weight"]/div[2]/div[3]/ul[1]/div//text()')#从网页读取到的信息
-    time.sleep(0.5)
-    driver.quit()
-    old_file=ZuHe_Name+".txt"
+    li_list=tree.xpath('//*[@id="cube-weight"]/div[2]/div[3]/ul[1]/div//text()')#从网页读取到的调仓信息
+    time.sleep(0.25)
+
+    current_fileName=os.path.basename(__file__).split('.')[0]
+    old_file=ZuHe_Name+"_"+""+current_fileName+".txt"#建立专属文件名
+
     if os.path.isfile(old_file)==0:
         f1=open("%s"%(old_file),'w',encoding='utf-8')#创建文件
         f1.close()
@@ -66,8 +68,9 @@ for ZuHe_Name in ZuHe_list:
                 trade_new=trade_new+str(li_list[i])+" "
             else:
                 trade_new = trade_new + str(li_list[i])
+    driver.quit()
     check = trade_new.split()
-    if check[2] == "分红配送":  # 跳过分红配送
+    if check[2] == "分红送配":  # 跳过分红送配
         trade_new = trade_old
     print(trade_new)
     print(trade_old)
@@ -76,5 +79,5 @@ for ZuHe_Name in ZuHe_list:
         f1 = open(old_file, 'w', encoding='utf-8')
         f1.writelines(trade_new)
         send_email(trade_new)
-    time.sleep(0.5)
+    time.sleep(0.25)
 

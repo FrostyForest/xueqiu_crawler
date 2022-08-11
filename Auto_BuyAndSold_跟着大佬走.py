@@ -136,7 +136,7 @@ def autoBuyAndSold(str,ZuHe_Name,ZuHe_list):
 
 
 
-ZuHe_list=['ZH837642','ZH154076','ZH1350829','ZH484626']#要监控的组合列表
+ZuHe_list=['ZH3099261','ZH3050233','ZH2514120','ZH3094661']#要监控的组合列表
 #while 1:
 for ZuHe_Name in ZuHe_list:
     option = webdriver.ChromeOptions()
@@ -145,7 +145,7 @@ for ZuHe_Name in ZuHe_list:
     driver = webdriver.Chrome(options=option)
     url="https://xueqiu.com/P/"+ZuHe_Name
     driver.get(url)
-    time.sleep(0.75)
+    time.sleep(0.25)
 
 
 
@@ -176,14 +176,16 @@ for ZuHe_Name in ZuHe_list:
 
     btn=driver.find_element_by_class_name('history')
     driver.execute_script("arguments[0].click();", btn)
-    time.sleep(0.75)#一定要等待网页加载出来
+    time.sleep(0.5)#一定要等待网页加载出来
     page_text=driver.page_source#获取页面源码
     tree=etree.HTML(page_text)#建立e树
     li_list=tree.xpath('//*[@id="cube-weight"]/div[2]/div[3]/ul[1]/div//text()')#从网页读取到的信息
-    time.sleep(0.5)
-    driver.quit()
-    old_file=ZuHe_Name+".txt"
-    if os.path.isfile(old_file)==0:
+    time.sleep(0.25)
+
+    current_fileName=os.path.basename(__file__).split('.')[0]
+    old_file=ZuHe_Name+"_"+""+current_fileName+".txt"#建立专属文件名
+
+    if os.path.isfile(old_file)==0:#如果没有该文件，则新建该文件
         f1=open("%s"%(old_file),'w',encoding='utf-8')#创建文件
         f1.close()
     f1=open(old_file,'r',encoding='utf-8')
@@ -197,8 +199,9 @@ for ZuHe_Name in ZuHe_list:
                 trade_new=trade_new+str(li_list[i])+" "
             else:
                 trade_new = trade_new + str(li_list[i])
+    driver.quit()
     check=trade_new.split()
-    if check[2]=="分红配送":#跳过分红配送
+    if check[2]=="分红送配":#跳过分红送配
         trade_new=trade_old
     print(trade_new)
     print(trade_old)
