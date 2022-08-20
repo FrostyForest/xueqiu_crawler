@@ -33,6 +33,7 @@ def zuHe_list_Monitor_send_email(zuHe_list):#实现对组合列表里的组合�
             'page': '1'
         }
         session = requests.session()
+        session.keep_alive = False
         response = session.get(url=url, params=param, headers=headers).json()
         sleep_time=random.uniform(0.2,0.5)
         time.sleep(sleep_time)
@@ -119,6 +120,7 @@ def zuHe_list_Monitor(zuHe_list,watcher_zuhe):#实现对组合列表里的组合
             'page': '1'
         }
         session=requests.session()
+        session.keep_alive = False
         session.get("https://xueqiu.com/P/ZH2311106", headers=headers)
         sleep_time = random.uniform(0, 2)
         time.sleep(sleep_time)
